@@ -5,29 +5,26 @@ const getNotes = function(){
     return "hello"
 }
 
-const addNote = function(title,body){
+const addNote =(title,body)=>{
     const load = loadNotes()
-    const duplicateNotes = load.filter(function(note){
-        return note.title === title
-    })
+    const duplicateNotes = load.find((note)=>note.title === title)
 
-    if(duplicateNotes.length === 0){
+    if(!duplicateNotes){
         load.push({
             title: title,
             body: body,
         })
         saveNotes(load)
+        console.log(chalk.green.inverse("Note Added"))
     }
     else{
-        console.log("Title already exist!!!")
+        console.log(chalk.red.inverse("Title already exist!!!"))
     }
 }
 
-const removeNote = function(title){
+const removeNote = (title)=>{
     const load = loadNotes()
-    const foundData = load.filter(function(note){
-        return note.title !== title
-    })
+    const foundData = load.filter((note)=>note.title !== title)
     if(load.length === foundData.length)
         console.log(chalk.green.inverse("Note not found"))
     else
@@ -35,12 +32,36 @@ const removeNote = function(title){
     saveNotes(foundData)
 }
 
-const saveNotes = function(notes){
+const saveNotes = (notes)=>{
     const dataJSON = JSON.stringify(notes)
     fs.writeFileSync('notes.json',dataJSON)
 }
 
-const loadNotes = function(){
+const listNote = ()=>{
+    const load = loadNotes()
+    if (load.length>0){
+        console.log("Notes: ")
+        load.forEach((note)=>{
+            console.log(note.title)
+        })
+    }
+    else{
+        console.log("No notes found!!!")
+    }
+}
+
+const readNote = (title) =>{
+    const load = loadNotes()
+    const findNote = load.find(note => note.title===title)
+    if(findNote){
+        console.log(chalk.green.bold(findNote.title))
+        console.log(findNote.body)
+    }
+    else
+        console.log(chalk.red.inverse("Not Found!!!"))
+}
+
+const loadNotes = ()=>{
     try{
         const dataBuffer = fs.readFileSync('notes.json')
         const dataJSON = dataBuffer.toString()
@@ -55,4 +76,6 @@ module.exports = {
     getNotes: getNotes,
     addNote: addNote,
     removeNote:removeNote,
+    listNote:listNote,
+    readNote: readNote,
 }
