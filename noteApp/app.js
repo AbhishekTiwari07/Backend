@@ -40,12 +40,7 @@ yargs.command({
 yargs.command({
     command:'list',
     describe:"Display list of given note",
-    builder: {
-        title:{
-            describe: 'Note title'
-        }
-    },
-    handler(){
+    handler(argv){
         util.listNote()
     }
 })
