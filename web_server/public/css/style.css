@@ -7,11 +7,13 @@ body{
 }
 header{
     font-size: 64px;
+    font-weight:bold;
+    margin:50px 0 0 0;
 }
 nav{
-    height:32px;
-    font-size: 24px;
-    margin:0 auto;
+    height:24px;
+    font-size: 20px;
+    margin:30px auto;
 }
 a{
     text-decoration: none;
@@ -24,11 +26,12 @@ a:hover{
 
 footer {
    border-top:solid gray 1px;
-   font-size: 24px;
+   font-size: 20px;
    position: fixed;
    left: 0;
    bottom: 0;
    width: 100%;
    text-align: center;
-   padding:20px 0;
+   padding:10px 0;
+   background-color: gray;
 }

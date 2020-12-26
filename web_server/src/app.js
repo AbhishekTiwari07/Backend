@@ -1,8 +1,10 @@
 const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
-
+const location = require('./geocoding.js')
+const forecast = require('./weather.js')
 const app = express()
+
 const dirViews = path.join(__dirname,'../template/views')
 const dirPartials = path.join(__dirname,'../template/partials')
 const dirPublic = path.join(__dirname,'../public')
@@ -20,25 +22,34 @@ app.get('',(req,res)=>{
         name:"JUZo"
     })
 })
-
 app.get('/help',(req,res)=>{
     res.render('help',{
         title:"Help",
         name:"JUZo"
     })
 })
-
 app.get('/about',(req,res)=>{
     res.render('about',{
         title:"About Me",
         name:"JUZo"
     })
 })
-
 app.get('/weather',(req,res)=>{
-    res.send({
-        location: "Mumbai",
-        forecast: "100"
+    if(!req.query.address)
+        return res.send('Please provide address!!!')
+    location.geocoding(req.query.address,(error,{latitude,longitude,place})=>{
+    if(error)
+        return res.send({error})
+    else {
+        forecast.weather(latitude,longitude,(error,{temp,humidity})=>{
+            if(error)
+                return res.send({error})
+            return res.send({
+                temp,
+                humidity,
+            })
+            })
+        }
     })
 })
 
