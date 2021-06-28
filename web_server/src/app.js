@@ -68,7 +68,7 @@ app.get('*',(req,res)=>{
     })
 })
 
-app.listen(3000,(error)=>{
+app.listen(3001,(error)=>{
     if(error)
         console.log(error)
     else
